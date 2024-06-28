@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles_sketch.css">
+    <script src="https://kit.fontawesome.com/ded43e76c5.js" crossorigin="anonymous"></script>
+
+    <title>Gestor de tareas</title>
+</head>
+
+<body>
+    <header class="header">
+        <div class="nombre-app">
+            <h1>TODO-APP</h1>
+        </div>
+        <!-- Nav Bar para ultima entrega, se vinculara con modal de login - registro de usuario
+        <nav class="menu">
+            <ul>
+                <li><a href="#">Log-out</a></li>
+                <li><a href="#">Preferencias</a></li>
+                <li><a href="#">Usuario</a></li>
+            </ul>
+        </nav>
+        -->
+    </header>
+    <div class="container">
+        <div class="perfil">
+            <div id="fecha">21/06/2024</div>
+            <h1>Hola, Emanuel</h1>
+            <span>vamos a ordenar tus tareas</span>
+        </div>
+        
+        <div class="agregar-tarea">
+            <div id="contenedor_input">
+                <input type="text" id="input" placeholder="Agregar tarea nueva">
+                <input name="fecha" type="date" id="date" class="form-control" value="" placeholder="dd/mm/aaaa" required="required">
+                <select name="tipo-de-tarea" id="desplegable" required="required">
+                    <option value="reunion">Reunión</option>
+                    <option value="entrega">Entrega</option>
+                    <option value="evento">Evento</option>
+                    <option value="pago">Pago</option>
+                    <option value="presentacion">Presentación</option>
+                    <option value="curso">Curso</option>
+                    <option value="otro">Otro</option>
+                </select>
+            </div>
+            <i id="boton-enter" class="fas fa-plus-circle"></i>
+        </div>
+        <div id="aviso" class="hidden">La tarea debe ser completada para poder eliminarla.</div>
+
+        <div class="seccion-tareas">
+            <h3>Estas son tus tareas en curso</h3>
+            <ul id="lista">
+                <!--
+                <li id="elemento">
+                    <i class="far fa-circle co" data="realizado" id="0"></i>
+                    <p class="text line-through">Hacer la tarea de español</p>
+                    <i class="fas fa-trash de" data="eliminado" id="0"></i>
+                </li>
+        -->
+            </ul>
+        </div>
+
+    </div>
+    <script defer src="/js/script.js"></script>
+</body>
+
+</html>

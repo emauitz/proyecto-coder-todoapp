@@ -1,0 +1,239 @@
+/*-- CSS sketchbook -- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    background-image: linear-gradient(white 1px, transparent 1px), 
+                      linear-gradient(to right, white 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border: 2px dashed #000;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.perfil {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.agregar-tarea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border: 2px dashed #000;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.agregar-tarea input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.agregar-tarea i {
+    font-size: 24px;
+    color: #000;
+    cursor: pointer;
+}
+
+.seccion-tareas {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.elemento {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.elemento:last-child {
+    border-bottom: none;
+}
+
+.elemento i {
+    cursor: pointer;
+}
+
+/* HEADER */
+
+.header {
+    background-color: var(--purple);
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.nombre-app h1 {
+    color: var(--w);
+    margin-left: 20px;
+    
+}
+
+.menu ul {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+}
+
+.menu ul li {
+    margin-right: 10px;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    color: var(--white);
+    font-size: 1.1rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.menu ul li a:hover {
+    background-color: var(--blue-light);
+}
+
+/* Media queries para responsive design */
+
+/* Para desktop */
+
+@media (min-width: 769px) {
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background-color: var(--purple);
+        color: var(--white);
+    }
+
+    .nombre-app h1 {
+        font-size: 24px;
+    }
+
+    .menu ul {
+        display: flex;
+        gap: 20px;
+        list-style-type: none;
+    }
+
+    .menu li {
+        font-size: 16px;
+    }
+
+    .menu a {
+        text-decoration: none;
+        color: var(--white);
+        transition: color 0.3s ease;
+    }
+
+    .menu a:hover {
+        color: var(--blue-light);
+    }
+}
+
+
+/* Para tablet */
+
+@media (max-width: 768px) {
+    .header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+        background-color: var(--purple);
+        color: var(--white);
+    }
+
+    .nombre-app h1 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .menu ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        list-style-type: none;
+    }
+
+    .menu li {
+        font-size: 14px;
+    }
+
+    .menu a {
+        text-decoration: none;
+        color: var(--white);
+        transition: color 0.3s ease;
+    }
+
+    .menu a:hover {
+        color: var(--blue-light);
+    }
+}
+
+/* Para mobile */
+
+@media (max-width: 480px) {
+    .header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+        background-color: var(--purple);
+        color: var(--white);
+    }
+
+    .nombre-app h1 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .menu ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        list-style-type: none;
+    }
+
+    .menu li {
+        font-size: 14px;
+    }
+
+    .menu a {
+        text-decoration: none;
+        color: var(--white);
+        transition: color 0.3s ease;
+    }
+
+    .menu a:hover {
+        color: var(--blue-light);
+    }
+}
