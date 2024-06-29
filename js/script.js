@@ -1,6 +1,4 @@
-
-/*gestion de usuario en login y creacion de nuevo usuario*/
-//Gestion de usuarios pendiente para ultima entrega
+//Se incluye un login sencillo y queda pendiente la Gestion de usuarios 
 
 // Constantes y variables
 const fecha = document.querySelector('#fecha');
@@ -16,10 +14,44 @@ const lineThrough = 'line-through';
 let id;
 let LIST = [];
 
+//saludo se alimenta del nombre de usuario en el login y de la hora del dia en que se ingrese
+function actualizarSaludo(nombre) {
+    const saludoElement = document.getElementById("saludo");
+    const ahora = new Date();
+    const hora = ahora.getHours();
+    let saludo;
+
+    if (hora >= 6 && hora < 12) {
+        saludo = "buenos días";
+    } else if (hora >= 12 && hora < 18) {
+        saludo = "buenas tardes";
+    } else {
+        saludo = "buenas noches";
+    }
+
+    saludoElement.textContent = `Hola ${nombre} ${saludo}`;
+}
+
+const modal = document.getElementById("loginModal");
+const loginButton = document.getElementById("loginButton");
+
+// Deshabilitar la interacción con el resto de la página
+document.body.classList.add("modal-open");
+
+loginButton.onclick = function() {
+    const username = document.getElementById("username").value;
+    if (username) {
+        modal.style.display = "none";
+        document.body.classList.remove("modal-open"); // Habilitar la interacción con el resto de la página
+        actualizarSaludo(username);
+    } else {
+        alert("Por favor, ingrese su nombre de usuario.");
+    }
+};
+
 // Creación de fecha
 const FECHA = new Date();
-fecha.innerHTML = FECHA.toLocaleDateString('es-AR', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' });
-
+fecha.innerHTML = FECHA.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' });
 
 // Función agregar tarea
 function agregarTarea(tarea, id, fechaLimite, tipoTarea, realizado, eliminado) {
