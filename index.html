@@ -5,22 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styles_sketch.css">
+    <!--toastify-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://kit.fontawesome.com/ded43e76c5.js" crossorigin="anonymous"></script>
     <script defer src="./js/script.js"></script>
     <title>Gestor de tareas</title>
 </head>
 
-<body>
+<body id="content">
     <header class="header">
         <div class="nombre-app">
             <h1>TODO-APP</h1>
         </div>
-        <!-- Nav Bar para ultima entrega, se vinculara con modal de login - registro de usuario
+        <!-- Nav Bar con configuracion y logout, se vincula con modal de login - registro de usuario
         <nav class="menu">
             <ul>
                 <li><a href="#">Log-out</a></li>
-                <li><a href="#">Preferencias</a></li>
-                <li><a href="#">Usuario</a></li>
+                <li><a href="#">Configuración</a></li>
             </ul>
         </nav>
         -->
@@ -30,53 +31,57 @@
             <div class="modal-content">
                 <h2>Login</h2>
                 <label for="username">Nombre de usuario:</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" id="username" name="username" required autofocus>
                 <button id="loginButton">Login</button>
             </div>
         </div>
-
         <!--FIN MODAL-->
 
-    <div class="container">
-        <div class="perfil">
-            <div id="fecha">21/06/2024</div>
-            <h2 id="saludo">Hola usuario</h2>
-            <span>vamos a ordenar tus tareas</span>
-        </div>
-        
-        <div class="agregar-tarea">
-            <div id="contenedor_input">
-                <input type="text" id="input" placeholder="Agregar tarea nueva">
-                <input name="fecha" type="date" id="date" class="form-control" value="" placeholder="dd/mm/aaaa" required="required">
-                <select name="tipo-de-tarea" id="desplegable" required="required">
-                    <option value="reunion">Reunión</option>
-                    <option value="entrega">Entrega</option>
-                    <option value="evento">Evento</option>
-                    <option value="pago">Pago</option>
-                    <option value="presentacion">Presentación</option>
-                    <option value="curso">Curso</option>
-                    <option value="otro">Otro</option>
-                </select>
+        <div class="container">
+            <div class="perfil">
+                <div id="fecha">21/06/2024</div>
+                <h2 id="saludo">Hola usuario</h2>
+                <span>vamos a ordenar tus tareas</span>
             </div>
-            <i id="boton-enter" class="fas fa-plus-circle"></i>
-        </div>
-        <div id="aviso" class="hidden">La tarea debe ser completada para poder eliminarla.</div>
-
-        <div class="seccion-tareas">
-            <h3>Estas son tus tareas en curso</h3>
-            <ul id="lista">
-                <!--
-                <li id="elemento">
-                    <i class="far fa-circle co" data="realizado" id="0"></i>
-                    <p class="text line-through">Hacer la tarea de español</p>
-                    <i class="fas fa-trash de" data="eliminado" id="0"></i>
-                </li>
-        -->
-            </ul>
-        </div>
-
-    </div>
-    
+            <div class="agregar-tarea">
+                <div id="contenedor_input">
+                    <input type="text" id="input" placeholder="Agregar tarea nueva">
+                    <input name="fecha" type="date" id="date" class="form-control" required>
+                    <input name="hora-limite" type="time" id="time" class="form-control" required>
+                    <select name="tipo-de-tarea" id="desplegable" required>
+                        <option value="reunion">Reunión</option>
+                        <option value="entrega">Entrega</option>
+                        <option value="evento">Evento</option>
+                        <option value="pago">Pago</option>
+                        <option value="presentacion">Presentación</option>
+                        <option value="curso">Curso</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+                <button id="boton-enter" class="fas fa-plus-circle"></button>
+            </div>
+            
+            <div class="seccion-tareas">
+                <h3 id="titulo-tareas"></h3>
+                <ul id="lista">
+                    <!--las tareas se agregaran aqui-->          
+                </ul>
+            </div>
+        </div>  
+<!--sweetalert-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!--toastify-->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<!--LUXON-->
+<script src="
+https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js
+"></script>
 </body>
 
+<footer>
+    <section class="pie_pagina">
+        <p>Todos los derechos reservados 2024 - TODO-APP</p>
+        <div class="version">Versión 1.0</div>
+    </section>
+</footer>
 </html>

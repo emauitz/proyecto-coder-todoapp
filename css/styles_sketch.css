@@ -5,6 +5,7 @@
     padding: 0;
 }
 
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -12,11 +13,13 @@ body {
     background-image: linear-gradient(white 1px, transparent 1px), 
                       linear-gradient(to right, white 1px, transparent 1px);
     background-size: 20px 20px;
-
+    overflow-y: scroll; /* Siempre mostrar barra de desplazamiento vertical */
+    padding-right: 15px; /* Ajuste para compensar el espacio de la barra de desplazamiento */
 }
 
 .container {
     max-width: 800px;
+    min-height: 60vh;
     margin: 50px auto;
     padding: 20px;
     background: #fff;
@@ -46,13 +49,15 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
-    margin-right: 10px;
+    margin: 3px;
 }
 
-.agregar-tarea i {
+.agregar-tarea button {
     font-size: 24px;
-    color: #000;
+    color: black;
+    border: none;
     cursor: pointer;
+    margin: 3px;
 }
 
 .seccion-tareas {
@@ -78,7 +83,132 @@ body {
     cursor: pointer;
 }
 
-ESTILOS MODAL
+/* subtareas */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#lista .elemento {
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.tarea {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.elemento button {
+    font-size: 24px;
+    color: black;
+    border: none;
+    cursor: pointer;
+    margin: 3px;
+}
+
+.contenido-expandido {
+    display: none; /* Ocultar inicialmente */
+    padding: 10px;
+    width: 90%;
+    margin-top: 10px;
+    background-color: #f0f0f0;
+  }
+  
+  /* Estilo para mostrar el contenido expandido cuando se hace hover */
+  li:hover .contenido-expandido {
+    display: block;
+    transition: 0.5s ease-in-out;
+  }
+
+.subtarea-input {
+    width: 90%;
+    border-radius: 3px;
+}
+
+.barra-progreso-container {
+    position: relative;
+    width: 80%; /* Ajusta el ancho */
+    height: 20px;
+    margin: 32px; /* Centra la barra de progreso */
+    margin-top: 10px;
+    border: black 1px solid;
+    border-radius: 5px;
+}
+
+.barra-progreso {
+    width: 100%;
+    height: 100%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+.barra-progreso .progreso {
+    height: 100%;
+    background-color: #27ed27;
+    width: 0%;
+    transition: width 0.3s ease;
+    border-radius: 5px;
+}
+
+.porcentaje {
+    position: absolute;
+    right: 0; 
+    top: 0; 
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+    padding: 3px; 
+}
+
+/* Estilos para subtareas dentro de los elementos de tarea */
+.subtarea {
+    margin-bottom: 5px;
+}
+
+.subtarea input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.subtarea-input {
+    margin-left: 5px;
+    padding: 3px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Estilos para botones de subtareas */
+.agregar-subtarea,
+.eliminar-subtarea {
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin-left: 5px;
+}
+
+.agregar-subtarea:hover,
+.eliminar-subtarea:hover {
+    background-color: grey;
+}
+
+/* Estilos para el modal */
 .modal {
     position: fixed;
     z-index: 1;
@@ -95,7 +225,7 @@ ESTILOS MODAL
 .modal-content {
     background-color: #fefefe;
     padding: 20px;
-    width: 300px; 
+    width: 300px;
     border: 2px dashed #000;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
 }
@@ -106,11 +236,9 @@ body.modal-open {
 }
 
 /* Deshabilitar pointer events para el resto de la página, excepto el modal */
-body.modal-open *:not(.modal):not(.modal *) {
-    filter: blur(5px);
+body #content {
     pointer-events: none;
 }
-
 
 /* HEADER */
 
@@ -157,6 +285,13 @@ body.modal-open *:not(.modal):not(.modal *) {
 
 .menu ul li a:hover {
     background-color: var(--blue-light);
+}
+
+.pie_pagina {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Media queries para responsive design */
