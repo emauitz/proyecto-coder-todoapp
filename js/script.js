@@ -14,6 +14,7 @@ let id;
 let LIST = [];
 var DateTime = luxon.DateTime;
 const ahora = DateTime.now();
+let loadingFromLocalStorage = false;
 
 // Saludo se alimenta del nombre de usuario en el login y de la hora del día en que se ingrese
 function actualizarSaludo(nombre) {
@@ -47,8 +48,6 @@ loginButton.onclick = function() {
         document.body.classList.remove("modal-open"); // Habilitar la interacción con el resto de la página
         actualizarSaludo(username);
     } else {
-        // Probar si SweetAlert se está ejecutando
-        console.log('Mostrando SweetAlert');
         Swal.fire({
             icon: "error",
             title: "Oops...",
@@ -99,9 +98,17 @@ loginButton.onclick = function() {
 
         // Mostrar Toastify con la cantidad de tareas que vencen en 10 días
         const tareasVencenEnDiezDias = contarTareasVencenEnDiezDias();
-        mostrarToastify(`Tienes ${tareasVencenEnDiezDias} tareas que vencen en los próximos 10 días.`);
+        if (tareasVencenEnDiezDias > 0) {
+            mostrarToastify(`Tienes ${tareasVencenEnDiezDias} tareas que vencen en 10 días.`);
+        } else {
+            mostrarToastify(`No hay tareas proximas a vencer`);
+        }
     } else {
-        mostrarToastify(`No hay tareas proximas a vencer`);
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "No escribiste tu nombre de usuario!"
+        });
     }
 };
 
@@ -144,7 +151,13 @@ function agregarTarea(tarea, id, fechaLimite, horaLimite, tipoTarea, realizado, 
 
     // Asignar eventos a los botones de subtareas
     asignarEventosSubtareas(document.querySelector(`#elemento_${id}`));
-    mostrarToastify("Tarea agregada exitosamente.");
+    function cargarLista(DATA) {
+        loadingFromLocalStorage = true; // Establecer bandera antes de cargar
+        DATA.forEach(function (i) {
+            agregarTarea(i.nombre, i.id, i.fechaLimite, i.horaLimite, i.tipoTarea, i.realizado, i.eliminado);
+        });
+        loadingFromLocalStorage = false; // Restablecer bandera después de cargar
+    }
 }
 
 // Función tarea realizada
@@ -196,7 +209,6 @@ botonEnter.addEventListener('click', () => {
     const horaLimite = horaLimiteInput.value;
     const tipoTarea = tipoTareaInput.value;
     if (tarea && fechaLimite && horaLimite && tipoTarea) {
-        console.log('Agregando tarea...');
         agregarTarea(tarea, id, fechaLimite, horaLimite, tipoTarea, false, false);
         LIST.push({
             nombre: tarea,
@@ -225,7 +237,6 @@ document.addEventListener('keyup', function(event) {
         const fechaLimite = fechaLimiteInput.value;
         const horaLimite = horaLimiteInput.value;
         const tipoTarea = tipoTareaInput.value;
-
         if (tarea && fechaLimite && horaLimite && tipoTarea) {
             agregarTarea(tarea, id, fechaLimite, horaLimite, tipoTarea, false, false);
             LIST.push({
@@ -269,11 +280,23 @@ function actualizarBarraProgreso(li) {
     const completados = li.querySelectorAll('.subtarea input[type="checkbox"]:checked');
     const progreso = li.querySelector('.progreso');
     const porcentajeElem = li.querySelector('.porcentaje');
+    
+    // Obtener el porcentaje anterior
+    const porcentajeAnterior = parseFloat(porcentajeElem.textContent);
+
+    // Calcular el nuevo porcentaje
     const porcentaje = checkboxes.length ? (completados.length / checkboxes.length) * 100 : 0;
+    
+    // Actualizar la barra de progreso y el elemento de porcentaje
     progreso.style.width = `${porcentaje}%`;
     porcentajeElem.textContent = `${Math.round(porcentaje)}%`;
-    mostrarToastify('ha habido cambios en la tarea');
+
+    // Mostrar Toastify si el porcentaje cambia
+    if (porcentajeAnterior !== Math.round(porcentaje)) {
+        mostrarToastify("Hubo cambios en las subtareas.");
+    }
 }
+
 
 // Asignar eventos de subtareas a un elemento específico
 function asignarEventosSubtareas(li) {
@@ -285,7 +308,7 @@ function asignarEventosSubtareas(li) {
         const subtarea = document.createElement('div');
         subtarea.classList.add('subtarea');
         subtarea.innerHTML = `<input type="checkbox"><input type="text" class="subtarea-input">`;
-
+        mostrarToastify('se ha sumado una subtarea');
         // Agregar subtarea al contenido expandido
         li.querySelector('.contenido-expandido').appendChild(subtarea);
 
@@ -303,7 +326,7 @@ function asignarEventosSubtareas(li) {
         const contenidoExpandido = li.querySelector('.contenido-expandido');
         if (contenidoExpandido.children.length > 0) {
             contenidoExpandido.lastChild.remove();
-            
+            mostrarToastify('se ha eliminado una subtarea');
             // Actualizar la barra de progreso después de eliminar la subtarea
             actualizarBarraProgreso(li);
         }
@@ -323,7 +346,9 @@ if (data) {
 }
 
 function cargarLista(DATA) {
-    DATA.forEach(function(i) {
+    loadingFromLocalStorage = true; // Establecer bandera antes de cargar
+    DATA.forEach(function (i) {
         agregarTarea(i.nombre, i.id, i.fechaLimite, i.horaLimite, i.tipoTarea, i.realizado, i.eliminado);
     });
+    loadingFromLocalStorage = false; // Restablecer bandera después de cargar
 }
