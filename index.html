@@ -4,9 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/styles_sketch.css">
+    <link rel="stylesheet" href="./css/styles_sketch.css">
+    <link rel="stylesheet" href="./css/modal-login.css">
     <!--toastify-->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <!--animate-->
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <script src="https://kit.fontawesome.com/ded43e76c5.js" crossorigin="anonymous"></script>
     <script defer src="./js/script.js"></script>
     <title>Gestor de tareas</title>
@@ -17,22 +22,64 @@
         <div class="nombre-app">
             <h1>TODO-APP</h1>
         </div>
-        <!-- Nav Bar con configuracion y logout, se vincula con modal de login - registro de usuario
+        <!-- Nav Bar con configuracion y logout, se vincula con modal de login - registro de usuario -->
         <nav class="menu">
             <ul>
                 <li><a href="#">Log-out</a></li>
                 <li><a href="#">Configuración</a></li>
             </ul>
         </nav>
-        -->
     </header>
         <!--MODAL DE LOGIN---->
-        <div id="loginModal" class="modal">
-            <div class="modal-content">
-                <h2>Login</h2>
-                <label for="username">Nombre de usuario:</label>
-                <input type="text" id="username" name="username" required autofocus>
-                <button id="loginButton">Login</button>
+        <div id="login-modal" class="container modal">
+            <div class="container-form modal-content">
+                <form class="sign-in">
+                    <h2>Iniciar Sesión</h2>
+                    <span>Use su correo y contraseña</span>
+                    <div class="container-input">
+                        <ion-icon name="mail-outline"></ion-icon>
+                        <input id="email-login" type="text" placeholder="Email">
+                    </div>
+                    <div class="container-input">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                        <input id="password-login" type="password" placeholder="Password">
+                    </div>
+                    <a href="#">¿Olvidaste tu contraseña?</a>
+                    <button id="loginButton" class="button">INICIAR SESIÓN</button>
+                </form>
+            </div>
+    
+            <div class="container-form modal-content">
+                <form class="sign-up">
+                    <h2>Registrarse</h2>
+                    <span>Escriba sus datos para registrarse</span>
+                    <div class="container-input">
+                        <ion-icon name="person-outline"></ion-icon>
+                        <input id="username" type="text" placeholder="Nombre">
+                    </div>
+                    <div class="container-input">
+                        <ion-icon name="mail-outline"></ion-icon>
+                        <input id="email-signup" type="text" placeholder="Email">
+                    </div>
+                    <div class="container-input">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                        <input id="password-signup" type="password" placeholder="Password">
+                    </div>
+                    <div class="container-input">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                        <input id="rePassword-signup" type="password" placeholder="Password">
+                    </div>
+                    <button id="signupButton" class="button" >REGISTRARSE</button>
+                </form>
+            </div>
+        </div>
+            
+        </div>
+            <!--<div class="modal-content">
+            <!--    <h2>Login</h2>
+            <!--    <label for="username">Nombre de usuario:</label>
+            <!--    <input type="text" id="username" name="username" required autofocus>
+            <!--    <button id="loginButton">Login</button>
             </div>
         </div>
         <!--FIN MODAL-->

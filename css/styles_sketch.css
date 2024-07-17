@@ -5,7 +5,6 @@
     padding: 0;
 }
 
-
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -13,14 +12,15 @@ body {
     background-image: linear-gradient(white 1px, transparent 1px), 
                       linear-gradient(to right, white 1px, transparent 1px);
     background-size: 20px 20px;
-    overflow-y: scroll; /* Siempre mostrar barra de desplazamiento vertical */
-    padding-right: 15px; /* Ajuste para compensar el espacio de la barra de desplazamiento */
+    overflow-y: scroll;
+    padding-right: 15px;
 }
 
 .container {
     max-width: 800px;
     min-height: 60vh;
-    margin: 50px auto;
+    margin: 5px auto;
+    margin-bottom: 50px;
     padding: 20px;
     background: #fff;
     border: 2px dashed #000;
@@ -65,14 +65,8 @@ body {
     border: 1px solid #ccc;
     padding: 20px;
     border-radius: 10px;
-}
-
-.elemento {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
+    overflow-y: auto;
+    max-height: 400px;
 }
 
 .elemento:last-child {
@@ -90,17 +84,18 @@ ul {
 }
 
 #lista .elemento {
-    padding: 10px;
-    margin: 10px 0;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-    overflow: hidden;
-    position: relative;
     display: flex;
     flex-direction: column;
+    position: relative;
     align-items: flex-start;
+    justify-content: space-between;
+    padding: 10px 0;
+    border: 1px solid grey;
+    border-bottom: 1px solid #eee;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 10px 0;
+    background-color: #f9f9f9;
 }
 
 .tarea {
@@ -127,10 +122,10 @@ ul {
   }
   
   /* Estilo para mostrar el contenido expandido cuando se hace hover */
-  li:hover .contenido-expandido {
+li:hover .contenido-expandido {
     display: block;
-    transition: 0.5s ease-in-out;
-  }
+    transition: 1s ease-in-out;
+}
 
 .subtarea-input {
     width: 90%;
@@ -141,7 +136,7 @@ ul {
     position: relative;
     width: 80%; /* Ajusta el ancho */
     height: 20px;
-    margin: 32px; /* Centra la barra de progreso */
+    margin: 10px; /* Centra la barra de progreso */
     margin-top: 10px;
     border: black 1px solid;
     border-radius: 5px;
@@ -196,19 +191,27 @@ ul {
 .eliminar-subtarea {
     font-size: 16px;
     cursor: pointer;
-    background-color: #f0f0f0;
-    border: none;
+    border: dashed 1px black;
     padding: 5px 10px;
     border-radius: 4px;
     margin-left: 5px;
 }
 
-.agregar-subtarea:hover,
-.eliminar-subtarea:hover {
-    background-color: grey;
+/* Estilos para el modal */
+
+#login-modal {
+    display: flex;
+    flex-direction: column;
+    position: absolute; /* Asegúrate de especificar una posición */
+    top: 50%; /* Centra verticalmente */
+    left: 50%; /* Centra horizontalmente */
+    transform: translate(-50%, -50%); /* Ajusta el centrado */
+    height: 65%;
+    width: 45%;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Estilos para el modal */
 .modal {
     position: fixed;
     z-index: 1;
@@ -226,8 +229,23 @@ ul {
     background-color: #fefefe;
     padding: 20px;
     width: 300px;
+    height: 300px;
     border: 2px dashed #000;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.sign-in , .sign-up {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#loginButton, #signupButton {
+    font-size: 16px;
+    color: black;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
 }
 
 /* Estilos para deshabilitar la interacción con el resto de la página */
@@ -243,7 +261,7 @@ body #content {
 /* HEADER */
 
 .header {
-    background-color: var(--purple);
+    background-color: white;
     padding: 10px 0;
     display: flex;
     justify-content: space-between;
@@ -255,17 +273,17 @@ body #content {
 .nombre-app h1 {
     color: black;
     margin-left: 20px;
-    
+    border: 2px dashed #000;
+    padding: 5px 10px;
+    border-radius: 5px;
 }
 
 .container .perfil h2 {
     color: black;
     margin-left: 20px;
-    
 }
 
 .menu ul {
-    list-style-type: none;
     display: flex;
     gap: 20px;
 }
@@ -276,15 +294,18 @@ body #content {
 
 .menu ul li a {
     text-decoration: none;
-    color: var(--white);
+    color: black;
+    font-weight: bold;
     font-size: 1.1rem;
     padding: 5px 10px;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    border: 2px dashed #000;
+    animation: alternate;
+    transition:  1s ease-in-out;
 }
 
 .menu ul li a:hover {
-    background-color: var(--blue-light);
+    background-color: white;
 }
 
 .pie_pagina {

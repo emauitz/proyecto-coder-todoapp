@@ -34,16 +34,16 @@ function actualizarSaludo(nombre) {
     saludoElement.textContent = `Hola ${nombre} ${saludo}`;
 }
 
-const modal = document.getElementById("loginModal");
-const loginButton = document.getElementById("loginButton");
+const modal = document.getElementById("login-modal");
+const loginButton = document.getElementById("login-Button");
 
 // Deshabilitar la interacción con el resto de la página
 document.body.classList.add("modal-open");
 
 loginButton.onclick = function() {
-    const username = document.getElementById("username").value;
-
-    if (username) {
+    const userEmail = document.getElementById("email-login").value;
+    const userPassword = document.getElementById("password-login").value;
+    if (userEmail && userPassword) {
         modal.style.display = "none";
         document.body.classList.remove("modal-open"); // Habilitar la interacción con el resto de la página
         actualizarSaludo(username);
@@ -55,6 +55,15 @@ loginButton.onclick = function() {
         })
     }
 };
+
+//creacion de usuario
+signupButton.onclick = function() {
+    const username = document.getElementById("username").value;
+    const userEmail = document.getElementById("email-signup").value;
+    const userPassword = document.getElementById("password-signup").value;
+    const userRePassword = document.getElementById("rePassword-signup").value;
+    
+}
 
 //funcion para mostrar toastify
 function mostrarToastify(mensaje, tipo = "info") {
@@ -112,10 +121,16 @@ loginButton.onclick = function() {
     }
 };
 
-
 // Creación de fecha
 const FECHA = new Date();
 fecha.innerHTML = FECHA.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' });
+
+//No permite agendar tareas con fecha anterior a la actual
+function configurarFechaMinima() {
+    const hoy = DateTime.local().toISODate();
+    document.getElementById("date").min = hoy
+}
+configurarFechaMinima();
 
 // Función agregar tarea
 function agregarTarea(tarea, id, fechaLimite, horaLimite, tipoTarea, realizado, eliminado) {
@@ -123,7 +138,7 @@ function agregarTarea(tarea, id, fechaLimite, horaLimite, tipoTarea, realizado, 
     const REALIZADO = realizado ? check : uncheck;
     const LINE = realizado ? lineThrough : '';
     const elemento = `
-        <li class="elemento" id="elemento_${id}">
+        <li class="elemento animate__animated animate__slideInDown" id="elemento_${id}">
         <div class="tarea">
             <i class="far ${REALIZADO} co" data="realizado" id="${id}"></i>
             <p class="text ${LINE}">${tarea}</p>
