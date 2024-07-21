@@ -12,3 +12,11 @@
     "animate.css": "^4.1.1"
   }
 }
+
+
+const erroresLogin = {
+  "usuarioNoEncontrado": "Usuario no encontrado. Verifica tus credenciales.",
+  "datosIncorrectos": "Los datos ingresados no son correctos. Inténtalo nuevamente.",
+  "camposVacios": "Por favor completa todos los campos.",
+  "formatoEmail": "El formato del correo electrónico no es válido."
+};

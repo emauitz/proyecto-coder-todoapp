@@ -1,3 +1,9 @@
+// Comprobar si el usuario está logueado
+const usuario = JSON.parse(localStorage.getItem('login_success')) || false;
+if (!usuario) {
+    window.location.href = 'login.html';
+}
+
 // Constantes y variables
 const fecha = document.querySelector('#fecha');
 const lista = document.querySelector('#lista');
@@ -16,6 +22,26 @@ var DateTime = luxon.DateTime;
 const ahora = DateTime.now();
 let loadingFromLocalStorage = false;
 
+// Función de logout
+function configurarLogout() {
+    const logout = document.getElementById("logout");
+    if (logout) {
+        logout.addEventListener("click", () => {
+            Swal.fire({
+                icon: "success",
+                title: "¡Éxito!",
+                text: "¡Esperamos que vuelvas pronto!",
+            }).then(() => {
+                localStorage.removeItem("login_success");
+                console.log('Sesión cerrada. Estado de login_success:', localStorage.getItem('login_success'));
+                window.location.href = 'login.html'; // Redirigir a la página de login
+            });
+        });
+    } else {
+        console.error("El elemento con el ID 'logout' no se encontró.");
+    }
+}
+
 // Saludo se alimenta del nombre de usuario en el login y de la hora del día en que se ingrese
 function actualizarSaludo(nombre) {
     const saludoElement = document.getElementById("saludo");
@@ -31,41 +57,21 @@ function actualizarSaludo(nombre) {
         saludo = "buenas noches";
     }
 
-    saludoElement.textContent = `Hola ${nombre} ${saludo}`;
+    saludoElement.textContent = `Hola ${nombre}, ${saludo}`;
 }
 
-const modal = document.getElementById("login-modal");
-const loginButton = document.getElementById("login-Button");
-
-// Deshabilitar la interacción con el resto de la página
-document.body.classList.add("modal-open");
-
-loginButton.onclick = function() {
-    const userEmail = document.getElementById("email-login").value;
-    const userPassword = document.getElementById("password-login").value;
-    if (userEmail && userPassword) {
-        modal.style.display = "none";
-        document.body.classList.remove("modal-open"); // Habilitar la interacción con el resto de la página
-        actualizarSaludo(username);
-    } else {
-        Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "No escribiste tu nombre de usuario!",
-        })
+// Función para manejar el inicio de sesión
+function manejarInicioSesion() {
+    const userData = JSON.parse(localStorage.getItem("login_success"));
+    if (userData && userData.username) {
+        actualizarSaludo(userData.username);
     }
-};
-
-//creacion de usuario
-signupButton.onclick = function() {
-    const username = document.getElementById("username").value;
-    const userEmail = document.getElementById("email-signup").value;
-    const userPassword = document.getElementById("password-signup").value;
-    const userRePassword = document.getElementById("rePassword-signup").value;
-    
 }
 
-//funcion para mostrar toastify
+// Llamar a manejarInicioSesion al cargar la página o después de un inicio de sesión exitoso
+window.onload = manejarInicioSesion();
+
+// Función para mostrar toastify
 function mostrarToastify(mensaje, tipo = "info") {
     Toastify({
         text: mensaje,
@@ -92,47 +98,42 @@ function contarTareasVencenEnDiezDias() {
     }).length;
 }
 
-// Evento de login
-loginButton.onclick = function() {
-    const username = document.getElementById("username").value;
-
-    if (username) {
-        modal.style.display = "none";
-        document.body.classList.remove("modal-open"); // Habilitar la interacción con el resto de la página
-        actualizarSaludo(username);
-
-        // Mostrar Toastify con la cantidad de tareas pendientes
-        const tareasPendientes = contarTareasPendientes();
-        mostrarToastify(`Tienes ${tareasPendientes} tareas pendientes.`);
-
-        // Mostrar Toastify con la cantidad de tareas que vencen en 10 días
-        const tareasVencenEnDiezDias = contarTareasVencenEnDiezDias();
-        if (tareasVencenEnDiezDias > 0) {
-            mostrarToastify(`Tienes ${tareasVencenEnDiezDias} tareas que vencen en 10 días.`);
+function cargarListaDeTareas() {
+    const userData = JSON.parse(localStorage.getItem("login_success"));
+    if (userData && userData.email) {
+        const tareasGuardadas = localStorage.getItem(`tareas_${userData.email}`);
+        if (tareasGuardadas) {
+            const listaDeTareas = JSON.parse(tareasGuardadas);
+            mostrarTareasEnLaInterfaz(listaDeTareas);
         } else {
-            mostrarToastify(`No hay tareas proximas a vencer`);
+            console.log("No hay tareas guardadas para este usuario.");
         }
-    } else {
-        Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "No escribiste tu nombre de usuario!"
-        });
     }
-};
+}
+
+function mostrarTareasEnLaInterfaz(tareas) {
+    const listaTareasContainer = document.getElementById('lista-tareas');
+    listaTareasContainer.innerHTML = ''; // Limpiar la lista existente
+
+    tareas.forEach(tarea => {
+        const tareaElemento = document.createElement('li');
+        tareaElemento.textContent = tarea.nombre; // Ajusta esto según tu estructura de tarea
+        listaTareasContainer.appendChild(tareaElemento);
+    });
+}
 
 // Creación de fecha
 const FECHA = new Date();
 fecha.innerHTML = FECHA.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' });
 
-//No permite agendar tareas con fecha anterior a la actual
+// No permite agendar tareas con fecha anterior a la actual
 function configurarFechaMinima() {
     const hoy = DateTime.local().toISODate();
-    document.getElementById("date").min = hoy
+    document.getElementById("date").min = hoy;
 }
 configurarFechaMinima();
 
-// Función agregar tarea
+// Función para agregar una tarea a la lista y guardarla en localStorage
 function agregarTarea(tarea, id, fechaLimite, horaLimite, tipoTarea, realizado, eliminado) {
     if (eliminado) { return; }
     const REALIZADO = realizado ? check : uncheck;
@@ -166,12 +167,36 @@ function agregarTarea(tarea, id, fechaLimite, horaLimite, tipoTarea, realizado, 
 
     // Asignar eventos a los botones de subtareas
     asignarEventosSubtareas(document.querySelector(`#elemento_${id}`));
-    function cargarLista(DATA) {
-        loadingFromLocalStorage = true; // Establecer bandera antes de cargar
-        DATA.forEach(function (i) {
-            agregarTarea(i.nombre, i.id, i.fechaLimite, i.horaLimite, i.tipoTarea, i.realizado, i.eliminado);
-        });
-        loadingFromLocalStorage = false; // Restablecer bandera después de cargar
+
+    // Guardar tarea en localStorage para el usuario actual
+    const userData = JSON.parse(localStorage.getItem("login_success"));
+    if (userData && userData.email) {
+        const tareasGuardadas = localStorage.getItem(`tareas_${userData.email}`);
+        const listaDeTareas = tareasGuardadas ? JSON.parse(tareasGuardadas) : [];
+        const tareaIndex = listaDeTareas.findIndex(t => t.id === id);
+
+        if (tareaIndex === -1) {
+            listaDeTareas.push({
+                nombre: tarea,
+                id: id,
+                fechaLimite: fechaLimite,
+                horaLimite: horaLimite,
+                tipoTarea: tipoTarea,
+                realizado: realizado,
+                eliminado: eliminado
+            });
+        } else {
+            listaDeTareas[tareaIndex] = {
+                nombre: tarea,
+                id: id,
+                fechaLimite: fechaLimite,
+                horaLimite: horaLimite,
+                tipoTarea: tipoTarea,
+                realizado: realizado,
+                eliminado: eliminado
+            };
+        }
+        localStorage.setItem(`tareas_${userData.email}`, JSON.stringify(listaDeTareas));
     }
 }
 
@@ -208,10 +233,10 @@ function tareaEliminada(element) {
                     text: "Tu tarea fue eliminada.",
                     icon: "success"
                 });
-            const elementoPadre = element.parentNode.parentNode;
-            elementoPadre.parentNode.removeChild(elementoPadre); // Eliminar el elemento LI
-            LIST[element.id].eliminado = true;
-            localStorage.setItem('TODO', JSON.stringify(LIST));
+                const elementoPadre = element.parentNode.parentNode;
+                elementoPadre.parentNode.removeChild(elementoPadre); // Eliminar el elemento LI
+                LIST[element.id].eliminado = true;
+                localStorage.setItem('TODO', JSON.stringify(LIST));
             }
         });
     }
@@ -245,8 +270,9 @@ botonEnter.addEventListener('click', () => {
     }
 });
 
+
 // Escucha el Enter para agregar una nueva tarea
-document.addEventListener('keyup', function(event) {
+document.addEventListener('keyup', function (event) {
     if (event.key === 'Enter') {
         const tarea = input.value;
         const fechaLimite = fechaLimiteInput.value;
@@ -276,7 +302,7 @@ document.addEventListener('keyup', function(event) {
 });
 
 // Eventos botones de tarea eliminada y check
-lista.addEventListener('click', function(event) {
+lista.addEventListener('click', function (event) {
     const element = event.target;
     const elementData = element.getAttribute('data');
     if (elementData === 'realizado') {
@@ -295,13 +321,13 @@ function actualizarBarraProgreso(li) {
     const completados = li.querySelectorAll('.subtarea input[type="checkbox"]:checked');
     const progreso = li.querySelector('.progreso');
     const porcentajeElem = li.querySelector('.porcentaje');
-    
+
     // Obtener el porcentaje anterior
     const porcentajeAnterior = parseFloat(porcentajeElem.textContent);
 
     // Calcular el nuevo porcentaje
     const porcentaje = checkboxes.length ? (completados.length / checkboxes.length) * 100 : 0;
-    
+
     // Actualizar la barra de progreso y el elemento de porcentaje
     progreso.style.width = `${porcentaje}%`;
     porcentajeElem.textContent = `${Math.round(porcentaje)}%`;
@@ -311,7 +337,6 @@ function actualizarBarraProgreso(li) {
         mostrarToastify("Hubo cambios en las subtareas.");
     }
 }
-
 
 // Asignar eventos de subtareas a un elemento específico
 function asignarEventosSubtareas(li) {
@@ -326,16 +351,14 @@ function asignarEventosSubtareas(li) {
         mostrarToastify('se ha sumado una subtarea');
         // Agregar subtarea al contenido expandido
         li.querySelector('.contenido-expandido').appendChild(subtarea);
-
         // Asignar evento de cambio al checkbox de la nueva subtarea
         subtarea.querySelector('input[type="checkbox"]').addEventListener('change', function () {
             actualizarBarraProgreso(li);
         });
-        
         // Actualizar la barra de progreso después de agregar la subtarea
         actualizarBarraProgreso(li);
     });
-    
+
     eliminarSubtareaBtn.addEventListener('click', function () {
         // Eliminar la última subtarea del contenido expandido
         const contenidoExpandido = li.querySelector('.contenido-expandido');
@@ -348,8 +371,7 @@ function asignarEventosSubtareas(li) {
     });
 }
 
-
-// Local storage get item
+// Llamar a cargarLista con la lista de tareas del localStorage
 let data = localStorage.getItem('TODO');
 if (data) {
     LIST = JSON.parse(data);
@@ -360,10 +382,33 @@ if (data) {
     id = 0;
 }
 
+// Función para cargar la lista de tareas desde localStorage
 function cargarLista(DATA) {
-    loadingFromLocalStorage = true; // Establecer bandera antes de cargar
-    DATA.forEach(function (i) {
-        agregarTarea(i.nombre, i.id, i.fechaLimite, i.horaLimite, i.tipoTarea, i.realizado, i.eliminado);
-    });
-    loadingFromLocalStorage = false; // Restablecer bandera después de cargar
+    loadingFromLocalStorage = true;
+    try {
+        // Filtrar las tareas eliminadas
+        const tareasActivas = DATA.filter(tarea => !tarea.eliminado);
+
+        tareasActivas.forEach(function (i) {
+            agregarTarea(i.nombre, i.id, i.fechaLimite, i.horaLimite, i.tipoTarea, i.realizado, i.eliminado);
+        });
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error al cargar las tareas',
+            text: 'Hubo un problema al cargar las tareas. Por favor, vuelve a iniciar sesión.',
+            showConfirmButton: true,
+            allowOutsideClick: false,
+            willClose: () => {
+                // Cerrar sesión y redirigir al login
+                configurarLogout(); // Asegúrate de definir esta función en el contexto adecuado
+                document.querySelector('#login-modal').classList.add('show');
+            }
+        });
+    } finally {
+        loadingFromLocalStorage = false;
+    }
 }
+
+// Inicializar las configuraciones
+configurarLogout();

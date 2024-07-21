@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/login.css">
+    <script defer type="module" src="./js/login.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <section class="container">
+        <form class="log-in" id="loginForm"> <!-- Añadido ID -->
+            <h2>Iniciar Sesión</h2>
+            <span>Si ya posee una cuenta, ingrese con su correo y contraseña.</span>
+            <ion-icon name="mail-outline"></ion-icon>
+            <input id="email-login" type="text" placeholder="Email" autofocus>
+            <ion-icon name="lock-closed-outline"></ion-icon>
+            <input id="password-login" type="password" placeholder="Password">
+            <a href="#">¿Olvidaste tu contraseña?</a>
+            <button id="login-Button" class="button">INICIAR SESIÓN</button>
+        </form>
+        <form class="sign-up">
+            <h2>Registrarse</h2>
+            <span>Si no posee una cuenta aquí, puede crearla.</span>
+            <ion-icon name="person-outline"></ion-icon>
+            <input id="username" type="text" placeholder="Nombre">
+            <ion-icon name="mail-outline"></ion-icon>
+            <input id="email-signup" type="text" placeholder="Email">
+            <ion-icon name="lock-closed-outline"></ion-icon>
+            <input id="password-signup" type="password" placeholder="Password">
+            <ion-icon name="lock-closed-outline"></ion-icon>
+            <input id="rePassword-signup" type="password" placeholder="Password">
+            <button id="signup-Button" class="button">REGISTRARSE</button>
+        </form>
+    </section>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
