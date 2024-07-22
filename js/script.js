@@ -206,7 +206,7 @@ function tareaRealizada(element) {
     element.classList.toggle(uncheck);
     element.parentNode.querySelector('.text').classList.toggle(lineThrough);
     LIST[element.id].realizado = LIST[element.id].realizado ? false : true;
-    localStorage.setItem('TODO', JSON.stringify(LIST));
+    
 }
 
 // Función tarea eliminada
@@ -216,7 +216,7 @@ function tareaEliminada(element) {
         const elementoPadre = element.parentNode.parentNode;
         elementoPadre.parentNode.removeChild(elementoPadre); // Eliminar el elemento LI
         LIST[element.id].eliminado = true;
-        localStorage.setItem('TODO', JSON.stringify(LIST));
+        
     } else {
         Swal.fire({
             title: "Estas seguro?",
@@ -236,7 +236,7 @@ function tareaEliminada(element) {
                 const elementoPadre = element.parentNode.parentNode;
                 elementoPadre.parentNode.removeChild(elementoPadre); // Eliminar el elemento LI
                 LIST[element.id].eliminado = true;
-                localStorage.setItem('TODO', JSON.stringify(LIST));
+                
             }
         });
     }
@@ -259,7 +259,7 @@ botonEnter.addEventListener('click', () => {
             realizado: false,
             eliminado: false
         });
-        localStorage.setItem('TODO', JSON.stringify(LIST));
+        
         input.value = '';
         fechaLimiteInput.value = '';
         horaLimiteInput.value = '';
@@ -289,7 +289,7 @@ document.addEventListener('keyup', function (event) {
                 realizado: false,
                 eliminado: false
             });
-            localStorage.setItem('TODO', JSON.stringify(LIST));
+            
             input.value = '';
             fechaLimiteInput.value = '';
             horaLimiteInput.value = '';
