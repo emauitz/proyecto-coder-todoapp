@@ -4,19 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/login.css">
+    <!--toastify-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script defer type="module" src="./js/login.js"></script>
     <title>Document</title>
 </head>
 <body>
     <section class="container">
-        <form class="log-in" id="loginForm"> <!-- Añadido ID -->
+        <form class="log-in" id="loginForm">
             <h2>Iniciar Sesión</h2>
             <span>Si ya posee una cuenta, ingrese con su correo y contraseña.</span>
             <ion-icon name="mail-outline"></ion-icon>
             <input id="email-login" type="text" placeholder="Email" autofocus>
             <ion-icon name="lock-closed-outline"></ion-icon>
             <input id="password-login" type="password" placeholder="Password">
-            <a href="#">¿Olvidaste tu contraseña?</a>
             <button id="login-Button" class="button">INICIAR SESIÓN</button>
         </form>
         <form class="sign-up">
@@ -35,5 +36,9 @@
     </section>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!--sweetalert-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--toastify-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>
 </html>

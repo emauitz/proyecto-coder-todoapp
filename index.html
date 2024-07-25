@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <script src="https://kit.fontawesome.com/ded43e76c5.js" crossorigin="anonymous"></script>
     <script defer type="module" src="./js/script.js"></script>
-    <script defer src="./js/Apis.js"></script>
+    <script defer src="./js/api.js"></script>
     <title>Gestor de tareas</title>
 </head>
 
@@ -23,11 +23,10 @@
         <nav class="nav-bar">
             <ul>
                 <li class="nav-bar-item"><a id="logout" href="./login.html">Log-out</a></li>
-                <li class="nav-bar-item"><a href="#">Configuración</a></li>
             </ul>
         </nav>
     </header>
-    
+
 
     <section class="container">
         <div class="perfil">
@@ -60,12 +59,13 @@
             </ul>
         </div>
     </section>
-    <section class="api-container" ID="api1">
-
-    </section>
-    <section class="api-container" ID="api2">
-        <h2>Feriados</h2>
-    </section>
+        <section class="api-container" id="api1">
+            <h2>Clima</h2>
+        </section>
+        <section class="api-container" id="api2">
+            <h2>Feriados</h2>
+        </section>
+    
     <!--sweetalert-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--toastify-->

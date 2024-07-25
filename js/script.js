@@ -65,11 +65,15 @@ function manejarInicioSesion() {
     const userData = JSON.parse(localStorage.getItem("login_success"));
     if (userData && userData.username) {
         actualizarSaludo(userData.username);
+        cargarListaDeTareas();
+        mostrarToastify(`Tareas pendientes: ${contarTareasPendientes()}`);
+        mostrarToastify(`Tareas vencen en 10 días: ${contarTareasVencenEnDiezDias()}`);
+    } else {
+        window.location.href = "login.html";
     }
 }
-
 // Llamar a manejarInicioSesion al cargar la página o después de un inicio de sesión exitoso
-window.onload = manejarInicioSesion();
+window.onload = manejarInicioSesion;
 
 // Función para mostrar toastify
 function mostrarToastify(mensaje, tipo = "info") {
@@ -98,23 +102,25 @@ function contarTareasVencenEnDiezDias() {
     }).length;
 }
 
+// Función para cargar la lista de tareas desde localStorage
 function cargarListaDeTareas() {
     const userData = JSON.parse(localStorage.getItem("login_success"));
     if (userData && userData.email) {
         const tareasGuardadas = localStorage.getItem(`tareas_${userData.email}`);
         if (tareasGuardadas) {
-            const listaDeTareas = JSON.parse(tareasGuardadas);
-            mostrarTareasEnLaInterfaz(listaDeTareas);
+            LIST = JSON.parse(tareasGuardadas);
+            id = LIST.length; // Actualiza el ID global
+            cargarLista(LIST); // Carga las tareas en la interfaz
         } else {
+            LIST = [];
+            id = 0;
             console.log("No hay tareas guardadas para este usuario.");
         }
     }
 }
-
 function mostrarTareasEnLaInterfaz(tareas) {
     const listaTareasContainer = document.getElementById('lista-tareas');
     listaTareasContainer.innerHTML = ''; // Limpiar la lista existente
-
     tareas.forEach(tarea => {
         const tareaElemento = document.createElement('li');
         tareaElemento.textContent = tarea.nombre; // Ajusta esto según tu estructura de tarea
@@ -165,9 +171,6 @@ function agregarTarea(tarea, id, fechaLimite, horaLimite, tipoTarea, realizado, 
     `;
     lista.insertAdjacentHTML("beforeend", elemento);
 
-    // Asignar eventos a los botones de subtareas
-    asignarEventosSubtareas(document.querySelector(`#elemento_${id}`));
-
     // Guardar tarea en localStorage para el usuario actual
     const userData = JSON.parse(localStorage.getItem("login_success"));
     if (userData && userData.email) {
@@ -196,7 +199,12 @@ function agregarTarea(tarea, id, fechaLimite, horaLimite, tipoTarea, realizado, 
                 eliminado: eliminado
             };
         }
-        localStorage.setItem(`tareas_${userData.email}`, JSON.stringify(listaDeTareas));
+
+        try {
+            localStorage.setItem(`tareas_${userData.email}`, JSON.stringify(listaDeTareas));
+        } catch (error) {
+            console.error("Error al guardar en localStorage:", error);
+        }
     }
 }
 
@@ -214,9 +222,22 @@ function tareaEliminada(element) {
     const tareaTexto = element.parentNode.querySelector('.text');
     if (tareaTexto.classList.contains(lineThrough)) {
         const elementoPadre = element.parentNode.parentNode;
-        elementoPadre.parentNode.removeChild(elementoPadre); // Eliminar el elemento LI
+        elementoPadre.remove();
         LIST[element.id].eliminado = true;
-        
+
+        // Actualizar en localStorage
+        const userData = JSON.parse(localStorage.getItem("login_success"));
+        if (userData && userData.id) {
+            const tareasGuardadas = localStorage.getItem(`tareas_${userData.email}`);
+            if (tareasGuardadas) {
+                const listaDeTareas = JSON.parse(tareasGuardadas);
+                const tareaIndex = listaDeTareas.findIndex(t => t.id === element.id);
+                if (tareaIndex !== -1) {
+                    listaDeTareas[tareaIndex].eliminado = true;
+                    localStorage.setItem(`tareas_${userData.email}`, JSON.stringify(listaDeTareas));
+                }
+            }
+        }
     } else {
         Swal.fire({
             title: "Estas seguro?",
@@ -234,13 +255,27 @@ function tareaEliminada(element) {
                     icon: "success"
                 });
                 const elementoPadre = element.parentNode.parentNode;
-                elementoPadre.parentNode.removeChild(elementoPadre); // Eliminar el elemento LI
+                elementoPadre.remove();
                 LIST[element.id].eliminado = true;
-                
+
+                // Actualizar en localStorage
+                const userData = JSON.parse(localStorage.getItem("login_success"));
+                if (userData && userData.id) {
+                    const tareasGuardadas = localStorage.getItem(`tareas_${userData.id}`);
+                    if (tareasGuardadas) {
+                        const listaDeTareas = JSON.parse(tareasGuardadas);
+                        const tareaIndex = listaDeTareas.findIndex(t => t.id === element.id);
+                        if (tareaIndex !== -1) {
+                            listaDeTareas[tareaIndex].eliminado = true;
+                            localStorage.setItem(`tareas_${userData.email}`, JSON.stringify(listaDeTareas));
+                        }
+                    }
+                }
             }
         });
     }
 }
+
 
 // Escucha el botón del mouse para agregar una nueva tarea
 botonEnter.addEventListener('click', () => {
@@ -372,7 +407,7 @@ function asignarEventosSubtareas(li) {
 }
 
 // Llamar a cargarLista con la lista de tareas del localStorage
-let data = localStorage.getItem('TODO');
+let data = localStorage.getItem('tareas_${userData.email}');
 if (data) {
     LIST = JSON.parse(data);
     id = LIST.length;
@@ -382,15 +417,23 @@ if (data) {
     id = 0;
 }
 
-// Función para cargar la lista de tareas desde localStorage
-function cargarLista(DATA) {
+// Función para cargar la lista de tareas en la interfaz
+function cargarLista(lista) {
     loadingFromLocalStorage = true;
     try {
         // Filtrar las tareas eliminadas
-        const tareasActivas = DATA.filter(tarea => !tarea.eliminado);
+        const tareasActivas = lista.filter(tarea => !tarea.eliminado);
 
         tareasActivas.forEach(function (i) {
+            // Agregar tarea al DOM
             agregarTarea(i.nombre, i.id, i.fechaLimite, i.horaLimite, i.tipoTarea, i.realizado, i.eliminado);
+
+            // Obtener el elemento de la tarea recién añadida
+            const tareaElemento = document.getElementById(`elemento_${i.id}`);
+            if (tareaElemento) {
+                // Asignar eventos a los botones de subtareas
+                asignarEventosSubtareas(tareaElemento);
+            }
         });
     } catch (error) {
         Swal.fire({
@@ -400,9 +443,7 @@ function cargarLista(DATA) {
             showConfirmButton: true,
             allowOutsideClick: false,
             willClose: () => {
-                // Cerrar sesión y redirigir al login
-                configurarLogout(); // Asegúrate de definir esta función en el contexto adecuado
-                document.querySelector('#login-modal').classList.add('show');
+                configurarLogout(); 
             }
         });
     } finally {
@@ -410,5 +451,7 @@ function cargarLista(DATA) {
     }
 }
 
+
 // Inicializar las configuraciones
 configurarLogout();
+cargarLista(LIST);

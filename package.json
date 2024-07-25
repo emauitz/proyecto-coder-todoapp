@@ -1,22 +1,24 @@
 {
   "name": "proyecto-coder-todoapp",
   "version": "1.0.0",
-  "description": "",
+  "description": "Este proyecto implementa un Gestor de Tareas utilizando HTML, CSS y JavaScript. Permite a los usuarios registrar tareas, subtasks y marcarlas como completadas. Además, incluye una funcionalidad de barra de progreso para visualizar el avance de las tareas.",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "animate.css": "^4.1.1"
-  }
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.7.0",
+    "eslint": "^9.7.0",
+    "globals": "^15.8.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "lint": "eslint.",
+    "build": "npx webpack",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
-
-
-const erroresLogin = {
-  "usuarioNoEncontrado": "Usuario no encontrado. Verifica tus credenciales.",
-  "datosIncorrectos": "Los datos ingresados no son correctos. Inténtalo nuevamente.",
-  "camposVacios": "Por favor completa todos los campos.",
-  "formatoEmail": "El formato del correo electrónico no es válido."
-};

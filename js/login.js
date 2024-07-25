@@ -1,3 +1,4 @@
+// Función para iniciar sesión
 export function iniciarSesion(userEmail, userPassword) {
     const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
     try {
@@ -25,8 +26,7 @@ export function iniciarSesion(userEmail, userPassword) {
     }
 }
 
-
-// Obtener referencia al formulario de login y agregar un evento de submit
+// Evento para el formulario de login
 document.querySelector('.log-in').addEventListener('submit', function (event) {
     event.preventDefault(); // Prevenir el envío del formulario por defecto
 
@@ -68,17 +68,20 @@ export function crearUsuario(username, email, password, repPassword) {
     }
     usuarios.push(usuario);
     localStorage.setItem('usuarios', JSON.stringify(usuarios));
-
-    // Simular envío de correo electrónico (se puede modificar para enviar realmente el correo)
-    enviarCorreoConfirmacion(email, usuario);
     Swal.fire({
         icon: "success",
         title: "Éxito!",
         text: "Tu usuario fue creado correctamente!",
-    });
-    document.getElementById('email-login').focus();
+    }).then(() => {
+        document.getElementById('username').value = '';
+        document.getElementById('email-signup').value = '';
+        document.getElementById('password-signup').value = '';
+        document.getElementById('rePassword-signup').value = '';
+        document.getElementById('email-login').focus();
+    }).catch ((error) => {
+        console.error('Error al mostrar SweetAlert2:', error);
+    })
 }
-
 
 document.getElementById('signup-Button').addEventListener('click', function (event) {
     event.preventDefault();

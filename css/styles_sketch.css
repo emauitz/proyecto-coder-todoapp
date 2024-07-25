@@ -74,7 +74,8 @@ body {
     padding: 20px;
     border-radius: 10px;
     overflow-y: auto;
-    max-height: 400px;
+    min-height: 30vh;
+    max-height: 80vh;
 }
 
 .elemento:last-child {
@@ -123,14 +124,13 @@ ul {
 
 .contenido-expandido {
     display: none;
-    /* Ocultar inicialmente */
     padding: 10px;
     width: 90%;
     margin-top: 10px;
     background-color: #f0f0f0;
 }
 
-/* Estilo para mostrar el contenido expandido cuando se hace hover */
+
 li:hover .contenido-expandido {
     display: block;
     transition: 1s ease-in-out;
@@ -139,10 +139,8 @@ li:hover .contenido-expandido {
 .barra-progreso-container {
     position: relative;
     width: 80%;
-    /* Ajusta el ancho */
     height: 20px;
     margin: 10px;
-    /* Centra la barra de progreso */
     margin-top: 10px;
     border: black 1px solid;
     border-radius: 5px;
@@ -205,11 +203,10 @@ li:hover .contenido-expandido {
 }
 
 /*estilos contenedores api*/
-
 .api-container {
     font-size: 12px;
-    max-width: 600px;
-    min-width: 50%;
+    max-width: 400px;
+    min-width: 30%;
     min-height: 30vh;
     margin: 5px auto;
     margin-bottom: 50px;
@@ -225,10 +222,13 @@ li:hover .contenido-expandido {
     grid-row: span 7 / span 7;
     grid-row-start: 2;
     display: flex;
-    flex-direction: column; /* Alinea los elementos en una columna */
-    align-items: center; /* Alinea los elementos al principio del contenedor (izquierda) */
-    gap: 10px; /* Espacio entre los elementos (opcional) */
-    padding: 10px; /* Espacio interno del contenedor (opcional) */
+    flex-direction: column; 
+    align-items: center; 
+    gap: 10px; 
+    padding: 10px; 
+    max-height: 800px;
+    overflow: scroll;
+    overflow-x: hidden;
 }
 
 #api2 {
@@ -237,33 +237,36 @@ li:hover .contenido-expandido {
     grid-column-start: 6;
     grid-row-start: 2;
     display: flex;
-    flex-direction: column; /* Alinea los elementos en una columna */
-    align-items: center; /* Alinea los elementos al principio del contenedor (izquierda) */
-    gap: 10px; /* Espacio entre los elementos (opcional) */
-    padding: 10px; /* Espacio interno del contenedor (opcional) */
+    flex-direction: column; 
+    align-items: center; 
+    gap: 10px; 
+    padding: 10px; 
+    max-height: 800px;
+    overflow: scroll;
+    overflow-x: hidden;
 }
 
 /* Estilos opcionales para los divs generados */
 #api1 div {
-    border: 1px solid #ddd; /* Borde del div */
+    border: 1px solid #ddd; 
     align-items: center;
     justify-content: center;
     max-width: 60%;
-    padding: 10px; /* Espacio interno del div */
-    border-radius: 5px; /* Bordes redondeados del div */
-    background-color: #f9f9f9; /* Color de fondo del div */
-    width: 60%; /* Asegura que cada div ocupe todo el ancho del contenedor */
+    padding: 10px; 
+    border-radius: 5px; 
+    background-color: #f9f9f9; 
+    width: 50%; 
 }
 
 #api2 div {
-    border: 1px solid #ddd; /* Borde del div */
+    border: 1px solid #ddd; 
     align-items: center;
     justify-content: center;
     max-width: 60%;
-    padding: 10px; /* Espacio interno del div */
-    border-radius: 5px; /* Bordes redondeados del div */
-    background-color: #f9f9f9; /* Color de fondo del div */
-    width: 60%; /* Asegura que cada div ocupe todo el ancho del contenedor */
+    padding: 10px; 
+    border-radius: 5px; 
+    background-color: #f9f9f9; 
+    width: 50%; 
 }
 
 /* HEADER */
@@ -273,7 +276,6 @@ li:hover .contenido-expandido {
     padding: 10px 0;
     margin-top: 5px;
     grid-column: span 7;
-    /* Ajusta el número de columnas que quieres que ocupe */
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -282,6 +284,7 @@ li:hover .contenido-expandido {
     border: 2px dashed #000;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
+    max-height: 15vh
 }
 
 .nombre-app {
@@ -310,7 +313,13 @@ li:hover .contenido-expandido {
 }
 
 /* FOOTER */
+
+footer {
+    display: grid;
+    flex-direction: row;
+}
 .pie_pagina {
+    display: grid;
     grid-column: span 7 / span 7;
     grid-row-start: 9;
     align-items: center;
