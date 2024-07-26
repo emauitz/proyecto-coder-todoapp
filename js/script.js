@@ -4,6 +4,7 @@ if (!usuario) {
     window.location.href = 'login.html';
 }
 
+
 // Constantes y variables
 const fecha = document.querySelector('#fecha');
 const lista = document.querySelector('#lista');
