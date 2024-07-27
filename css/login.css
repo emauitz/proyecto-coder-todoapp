@@ -6,45 +6,42 @@
 
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: "Mina", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     background-color: #f9f9f9;
     background-image: linear-gradient(white 1px, transparent 1px),
         linear-gradient(to right, white 1px, transparent 1px);
     background-size: 20px 20px;
-    overflow-y: scroll;
-    padding-right: 15px;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(9, 1fr);
-    gap: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .container {
     display: flex;
     flex-direction: row;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: 65%;
-    width: 45%;
     justify-content: center;
     align-items: center;
-    margin: 5px auto;
-    margin-bottom: 50px;
+    width: 90%;
+    max-width: 600px;
     padding: 20px;
     gap: 20px;
     background: #fff;
     border: 2px dashed #000;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+    margin: 5px;
 }
 
 .log-in,
 .sign-up {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
+    width: 100%;
 }
 
 #login-Button,
@@ -54,4 +51,13 @@ body {
     border: none;
     cursor: pointer;
     margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        width: 90%;
+        max-width: none;
+        height: auto;
+    }
 }

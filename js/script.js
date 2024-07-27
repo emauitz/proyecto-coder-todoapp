@@ -154,6 +154,7 @@ function agregarTarea(tarea, id, fechaLimite, horaLimite, tipoTarea, realizado, 
             <p class="hora-limite">${horaLimite}</p>
             <p class="tipo-tarea">${tipoTarea.charAt(0).toUpperCase() + tipoTarea.slice(1)}</p>
             <i class="fas fa-trash de" data="eliminado" id="${id}"></i>
+            <button class="expandir-tarea"><i class="fas fa-chevron-down"></i></button>
         </div>
         
         <div class="contenido-expandido">
@@ -171,6 +172,12 @@ function agregarTarea(tarea, id, fechaLimite, horaLimite, tipoTarea, realizado, 
     </li>
     `;
     lista.insertAdjacentHTML("beforeend", elemento);
+    // se añade el evento listener para el nuevo botón de expansión
+    const nuevoBoton = document.querySelector(`#elemento_${id} .expandir-tarea`);
+    nuevoBoton.addEventListener("click", function() {
+        const elemento = this.closest(".elemento");
+        elemento.classList.toggle("expandido");
+    });
 
     // Guardar tarea en localStorage para el usuario actual
     const userData = JSON.parse(localStorage.getItem("login_success"));
@@ -208,6 +215,11 @@ function agregarTarea(tarea, id, fechaLimite, horaLimite, tipoTarea, realizado, 
         }
     }
 }
+
+//---------------------
+
+
+//-----------------------
 
 // Función tarea realizada
 function tareaRealizada(element) {
